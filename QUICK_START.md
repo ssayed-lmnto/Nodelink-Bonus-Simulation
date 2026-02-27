@@ -1,10 +1,8 @@
-# MLM SIMULATION - QUICK START GUIDE
+# Nodelink - Quick Start Guide
 
 ## 🚀 Getting Started in 3 Steps
 
-### Step 1: Install Dependencies (One-time setup)
-
-Open your terminal and run:
+### Step 1: Install Dependencies
 
 ```bash
 pip install flask numpy
@@ -12,222 +10,106 @@ pip install flask numpy
 
 ### Step 2: Start the Application
 
-Navigate to the folder containing the simulation files and run:
-
 ```bash
 python app.py
 ```
 
-You should see output like:
-```
- * Running on http://127.0.0.1:5000
-```
+### Step 3: Open Browser
 
-### Step 3: Open in Browser
-
-Open your web browser and go to:
-```
-http://localhost:5000
-```
+Navigate to: `http://localhost:5000`
 
 ## 📱 Using the Interface
 
-### Configuration Tabs
+### PowerUp Bonus Simulation
 
-**BASIC** - Main simulation settings
-- Total Users: How many people in the hierarchy (default: 100,000)
-- Hierarchy Depth: Maximum levels (default: 15)
-- Average Units: Average purchase per user (default: 40 units = $1,000)
-- Line Thresholds: Percentages for qualifying additional lines
-
-**RANKS** - VP requirements for each rank level
-- Adjust the VP needed to achieve N1 through N7 ranks
-
-**POWERUP** - Bonus percentage matrix
-- Set the percentage each rank earns based on qualified lines
-- Higher ranks + more lines = higher percentages
-
-**MATCHING** - Matching bonus percentages
-- Set the matching bonus % for ranks N3 through N7
-- N1 and N2 don't qualify for matching bonuses
-
-### Running a Simulation
-
-1. **Configure Your Parameters** (or use defaults)
-   - Switch between tabs to adjust settings
-   - All values are editable
+1. **Configure Parameters** (or use defaults)
+   - Total Users: 10,000
+   - Max Depth: 7
+   - Avg Units: 8
 
 2. **Click "🚀 Run Simulation"**
-   - Large simulations (100K+ users) take 30-60 seconds
-   - You'll see a status bar with progress
+   - Watch the timer display
+   - Cancel if needed
 
 3. **View Results**
-   - Summary statistics appear automatically
-   - Rank distribution shows how many achieved each rank
-   - Line distribution shows qualification levels
-   - Top 20 earners table with detailed breakdowns
+   - Summary statistics
+   - Rank distribution
+   - Heatmap matrix
 
-## 💡 Key Metrics Explained
+### Direct Bonus Simulation
 
-### Total Sales
-Total dollar amount purchased by all users
-- Example: 100,000 users × $1,000 avg = $100,000,000
+1. **Run PowerUp first** (creates shared hierarchy)
+2. **Switch to Direct Bonus tab**
+3. **Configure NLK/USDN parameters**
+4. **Click "🚀 Run Direct Bonus Simulation"**
+5. **View 12-month breakdown**
 
-### Total PowerUp
-Sum of all PowerUp bonuses paid across the entire hierarchy
-- Typically 15-25% of total sales depending on configuration
+## ⚡ Default Settings
 
-### Total Matching
-Sum of all Matching bonuses paid to qualified ranks (N3+)
-- Typically 2-5% of total sales
+### PowerUp
+| Setting | Default |
+|---------|---------|
+| Users | 10,000 |
+| Depth | 7 levels |
+| Avg Units | 8 ($200) |
+| Promotion | Enabled |
+
+### Direct Bonus
+| Setting | Default |
+|---------|---------|
+| NLK Avg Units | 8 |
+| NLK Promo Months | 1, 2 |
+| USDN Promo Months | 2, 3, 4 |
+| Reinvestment | 100% |
+
+## 🎯 Key Metrics Explained
 
 ### Payout Ratio
-Percentage of sales paid out as bonuses
-- Total Bonuses ÷ Total Sales × 100
-- Healthy MLM plans typically range from 25-40%
+Total bonuses paid ÷ Total sales/inflow
 
-## 🔧 Common Scenarios
+### USDN Eligible Users
+Users with ≥$2,500 cumulative USDN (can earn USDN bonuses)
 
-### Small Test Run (Fast)
-```
-Total Users: 1,000
-Hierarchy Depth: 10
-Average Units: 40
-```
-Runs in ~3 seconds - good for testing configurations
+### Disqualified
+Potential bonuses not paid because uplines weren't eligible
 
-### Medium Simulation (Balanced)
-```
-Total Users: 50,000
-Hierarchy Depth: 15
-Average Units: 40
-```
-Runs in ~20 seconds - realistic scale
+### Cascade Bonus
+Bonus-on-bonus from reinvested USDN component
 
-### Full Production Scale
-```
-Total Users: 100,000
-Hierarchy Depth: 15
-Average Units: 40
-```
-Runs in ~45 seconds - full simulation
+## ⚠️ Tips for Free Hosting (Render)
 
-### Conservative Compensation
-```
-PowerUp Matrix: Use lower percentages (3-15%)
-Matching: Lower percentages (5-15%)
-Line Thresholds: Higher thresholds (40%, 30%, 20%, 10%)
-```
-Results in lower payout ratios (20-30%)
+1. **Use 10K users** - Larger sizes may timeout
+2. **Enable cache** - Faster subsequent runs
+3. **Cancel if stuck** - Use Cancel button
+4. **Reset if needed** - Use Reset button
 
-### Aggressive Compensation
-```
-PowerUp Matrix: Use higher percentages (5-25%)
-Matching: Higher percentages (15-30%)
-Line Thresholds: Lower thresholds (25%, 15%, 8%, 3%)
-```
-Results in higher payout ratios (35-45%)
+## 🛠️ Troubleshooting
 
-## ⚠️ Important Notes
+### "Already running" error
+Click **Reset** button next to Run
 
-### Purchase Distribution
-The simulation uses **log-normal distribution** for purchases:
-- Most users buy around the average
-- Some users buy significantly more (realistic "whale" behavior)
-- Matches real-world referral marketing patterns
+### Timeout
+Reduce user count to 10,000 or less
 
-### Hierarchy Generation
-Users are distributed randomly but weighted toward realistic patterns:
-- Not everyone has the same number of referrals
-- Tree depth varies naturally
-- Some legs are larger than others (reflecting reality)
+### Memory error
+Clear hierarchy and use smaller size
 
-### Validation
-Run the validation tests to verify accuracy:
+## 📊 Output Files
 
-```bash
-python test_validation.py
-```
+Results display in browser - no files generated.
 
-All 5 tests should pass, confirming mathematical correctness.
+## 🔗 Deployment
 
-## 🐛 Troubleshooting
+### Render.com
+1. Push to GitHub
+2. Connect repo
+3. Deploy automatically
 
-### "ModuleNotFoundError: No module named 'flask'"
-**Solution**: Install Flask
-```bash
-pip install flask
-```
-
-### "ModuleNotFoundError: No module named 'numpy'"
-**Solution**: Install NumPy
-```bash
-pip install numpy
-```
-
-### Simulation takes too long
-**Solution**: Reduce the number of users
-- Try 10,000 users for quick tests
-- Reduce hierarchy depth to 10
-
-### Results seem wrong
-**Solution**: Check your configuration
-- Verify rank VP requirements are in ascending order
-- Ensure PowerUp percentages increase with lines
-- Confirm matching percentages are reasonable
-
-### Browser shows "Connection Refused"
-**Solution**: Make sure app.py is running
-- Check terminal for errors
-- Restart with `python app.py`
-- Try http://127.0.0.1:5000 instead
-
-## 📊 Interpreting Results
-
-### High Payout Ratio (>40%)
-- Configuration may be too generous
-- Consider reducing PowerUp percentages
-- Increase line qualification thresholds
-
-### Low Payout Ratio (<20%)
-- Configuration may be too restrictive
-- Consider increasing PowerUp percentages
-- Lower line qualification thresholds
-
-### Few Rank Qualifications
-- VP requirements may be too high
-- Consider lowering rank thresholds
-- Increase average purchase amount
-
-### Many Top-Rank Qualifications
-- VP requirements may be too low
-- May not reflect realistic growth patterns
-- Consider raising rank thresholds
-
-## 🔒 Accuracy Guarantee
-
-This simulation has been designed with **surgical precision**:
-
-✅ All VP calculations verified with unit tests  
-✅ Line qualification logic tested against known scenarios  
-✅ PowerUp differential math validated  
-✅ Matching cascading logic confirmed accurate  
-✅ No double-counting or missed payments  
-
-The validation test suite (`test_validation.py`) proves mathematical correctness for all core calculations.
-
-## 📖 For More Details
-
-See `README.md` for:
-- Complete documentation
-- Detailed algorithm explanations
-- Mathematical formulas
-- Advanced customization options
-- Performance optimization tips
+### Environment
+- Python 3.8+
+- Flask
+- NumPy
 
 ---
 
-**Need Help?** Check the README.md file for comprehensive documentation.
-
-**Version**: 1.0.0  
-**Status**: Production Ready ✅
+**Version**: 2.0.0

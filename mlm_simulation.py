@@ -904,28 +904,67 @@ class MLMSimulation:
             'matching_matrix_heatmap': matching_matrix_data
         }
     
-    def run_simulation(self):
-        """Execute complete simulation workflow"""
+    def run_simulation(self, progress_callback=None):
+        """Execute complete simulation workflow
+        
+        Args:
+            progress_callback: Optional callback function(status, progress_pct) 
+                              Returns True if cancellation requested
+        """
+        def update_progress(status, pct):
+            print(status)
+            if progress_callback:
+                return progress_callback(status, pct)
+            return False
+        
         print("=" * 60)
         print("POWERUP BONUS SIMULATION")
         print("=" * 60)
         
-        total_users = self.config.get('total_users', 100000)
-        max_depth = self.config.get('max_depth', 15)
+        total_users = self.config.get('total_users', 10000)
+        max_depth = self.config.get('max_depth', 7)
+        
+        if update_progress(f'Generating hierarchy ({total_users:,} users)...', 15):
+            raise Exception('Cancelled by user')
         self.generate_hierarchy(total_users, max_depth)
         
-        avg_units = self.config.get('avg_units', 40)
+        avg_units = self.config.get('avg_units', 8)
         min_units = self.config.get('min_units', 1)
+        
+        if update_progress('Assigning purchases...', 30):
+            raise Exception('Cancelled by user')
         self.assign_purchases(avg_units, min_units)
         
+        if update_progress('Calculating VP...', 45):
+            raise Exception('Cancelled by user')
         self.calculate_vp()
+        
+        if update_progress('Calculating leg VP...', 55):
+            raise Exception('Cancelled by user')
         self.calculate_leg_vp()
+        
+        if update_progress('Determining ranks...', 65):
+            raise Exception('Cancelled by user')
         self.determine_ranks()
+        
+        if update_progress('Determining line qualifications...', 70):
+            raise Exception('Cancelled by user')
         self.determine_line_qualification()
+        
+        if update_progress('Assigning PowerUp percentages...', 75):
+            raise Exception('Cancelled by user')
         self.assign_powerup_percentages()
+        
+        if update_progress('Assigning Matching percentages...', 80):
+            raise Exception('Cancelled by user')
         self.assign_matching_percentages()
+        
+        if update_progress('Calculating bonuses...', 85):
+            raise Exception('Cancelled by user')
         self.calculate_bonuses()
         
+        if update_progress('Generating statistics...', 90):
+            raise Exception('Cancelled by user')
         stats = self.get_statistics()
         
         print("\n" + "=" * 60)
@@ -938,23 +977,29 @@ class MLMSimulation:
 def create_default_config():
     """Create default configuration"""
     return {
-        'total_users': 100000,
-        'max_depth': 15,
-        'avg_units': 40,
+        'total_users': 10000,
+        'max_depth': 7,
+        'avg_units': 8,
         'min_units': 1,
+        'promotion_enabled': True,
+        'promotion_target_units': 8,
+        'promotion_intensity': 30,
+        'use_hierarchy_cache': True,
+        'force_regenerate_hierarchy': False,
         'rank_vp_requirements': {
             'N1': 5000, 'N2': 15000, 'N3': 30000, 'N4': 100000,
             'N5': 250000, 'N6': 500000, 'N7': 1000000
         },
         'line_thresholds': {2: 0.30, 3: 0.20, 4: 0.10, 5: 0.05},
+        # PowerUp Matrix: 0 means not available for that rank/line combination
         'powerup_matrix': {
-            'N1': {1: 0.03, 2: 0.05, 3: 0.05, 4: 0.05, 5: 0.05},
-            'N2': {1: 0.04, 2: 0.06, 3: 0.06, 4: 0.06, 5: 0.06},
-            'N3': {1: 0.05, 2: 0.08, 3: 0.10, 4: 0.10, 5: 0.10},
-            'N4': {1: 0.06, 2: 0.11, 3: 0.13, 4: 0.15, 5: 0.15},
-            'N5': {1: 0.07, 2: 0.13, 3: 0.15, 4: 0.17, 5: 0.19},
-            'N6': {1: 0.08, 2: 0.14, 3: 0.17, 4: 0.19, 5: 0.21},
-            'N7': {1: 0.09, 2: 0.15, 3: 0.19, 4: 0.21, 5: 0.23}
+            'N1': {1: 0.03, 2: 0.05, 3: 0.00, 4: 0.00, 5: 0.00},  # Only 1-2 lines
+            'N2': {1: 0.04, 2: 0.06, 3: 0.00, 4: 0.00, 5: 0.00},  # Only 1-2 lines
+            'N3': {1: 0.05, 2: 0.08, 3: 0.10, 4: 0.00, 5: 0.00},  # Only 1-3 lines
+            'N4': {1: 0.06, 2: 0.11, 3: 0.13, 4: 0.15, 5: 0.00},  # Only 1-4 lines
+            'N5': {1: 0.07, 2: 0.12, 3: 0.14, 4: 0.17, 5: 0.19},  # All 5 lines
+            'N6': {1: 0.08, 2: 0.13, 3: 0.16, 4: 0.19, 5: 0.21},  # All 5 lines
+            'N7': {1: 0.09, 2: 0.14, 3: 0.18, 4: 0.21, 5: 0.23}   # All 5 lines
         },
         'matching_percentages': {
             'N1': 0.0, 'N2': 0.0, 'N3': 0.10, 'N4': 0.125,

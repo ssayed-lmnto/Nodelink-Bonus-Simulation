@@ -386,17 +386,17 @@
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label">Total Users</label>
-                                        <input type="number" class="form-input" id="total_users" value="100000">
+                                        <input type="number" class="form-input" id="total_users" value="10000">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Max Depth</label>
-                                        <input type="number" class="form-input" id="max_depth" value="15">
+                                        <input type="number" class="form-input" id="max_depth" value="7">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label">Avg Units</label>
-                                        <input type="number" class="form-input" id="avg_units" value="40">
+                                        <input type="number" class="form-input" id="avg_units" value="8">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Min Units</label>
@@ -407,21 +407,21 @@
                                 <div class="info-box orange">
                                     <div class="info-box-title">🎯 Promotion Adjustment</div>
                                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                                        <input type="checkbox" id="promotion_enabled" style="width: 16px; height: 16px;">
+                                        <input type="checkbox" id="promotion_enabled" checked style="width: 16px; height: 16px;">
                                         <span style="font-size: 13px;">Enable promotional push</span>
                                     </div>
                                     <div class="form-row" style="margin-bottom: 0;">
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Target Units</label>
-                                            <input type="number" class="form-input" id="promotion_target" value="40">
+                                            <input type="number" class="form-input" id="promotion_target" value="8">
                                         </div>
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Intensity %</label>
                                             <select class="form-input" id="promotion_intensity">
                                                 <option value="25">Light (25%)</option>
-                                                <option value="45" selected>Moderate (45%)</option>
-                                                <option value="65">Aggressive (65%)</option>
-                                                <option value="85">Extreme (85%)</option>
+                                                <option value="30" selected>Moderate (30%)</option>
+                                                <option value="45">Aggressive (45%)</option>
+                                                <option value="65">Extreme (65%)</option>
                                             </select>
                                         </div>
                                     </div>
@@ -483,8 +483,15 @@
                                 <div id="matching-inputs"></div>
                             </div>
 
-                            <button class="btn" id="pu-run-btn" onclick="runPowerUp()">🚀 Run Simulation</button>
-                            <div class="status-bar" id="pu-status" style="display: none;">Ready</div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <button class="btn" id="pu-run-btn" onclick="runPowerUp()">🚀 Run Simulation</button>
+                                <button class="btn" id="pu-cancel-btn" onclick="cancelPowerUp()" style="background: var(--orange); display: none;">⏹ Cancel</button>
+                                <button class="btn" id="pu-reset-btn" onclick="forceReset('powerup')" style="background: var(--text-secondary); display: none;">🔄 Reset</button>
+                            </div>
+                            <div class="status-bar" id="pu-status" style="display: none;">
+                                <span id="pu-status-text">Ready</span>
+                                <span id="pu-status-time" style="margin-left: 8px; opacity: 0.8;"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -613,11 +620,11 @@
                                     <div class="form-row" style="margin-top: 12px; margin-bottom: 0;">
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Total Users</label>
-                                            <input type="number" class="form-input" id="db_total_users" value="100000">
+                                            <input type="number" class="form-input" id="db_total_users" value="10000">
                                         </div>
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Max Depth</label>
-                                            <input type="number" class="form-input" id="db_max_depth" value="15">
+                                            <input type="number" class="form-input" id="db_max_depth" value="7">
                                         </div>
                                     </div>
                                     <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; margin-top: 8px; cursor: pointer;">
@@ -690,11 +697,11 @@
                                     <div class="form-row" style="margin-bottom: 0;">
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Avg Units</label>
-                                            <input type="number" class="form-input" id="db_nlk_avg" value="40">
+                                            <input type="number" class="form-input" id="db_nlk_avg" value="8">
                                         </div>
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Promo Months</label>
-                                            <input type="text" class="form-input" id="db_nlk_promos" value="3,6,9" placeholder="e.g. 3,6,9">
+                                            <input type="text" class="form-input" id="db_nlk_promos" value="1,2" placeholder="e.g. 1,2">
                                         </div>
                                     </div>
                                 </div>
@@ -730,11 +737,11 @@
                                     <div class="form-row" style="margin-bottom: 0;">
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Avg Amount $</label>
-                                            <input type="number" class="form-input" id="db_usdn_avg" value="2000">
+                                            <input type="number" class="form-input" id="db_usdn_avg" value="500">
                                         </div>
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Promo Months</label>
-                                            <input type="text" class="form-input" id="db_usdn_promos" value="2,5,8,11">
+                                            <input type="text" class="form-input" id="db_usdn_promos" value="2,3,4">
                                         </div>
                                     </div>
                                 </div>
@@ -752,7 +759,7 @@
                                     <div class="form-row" style="margin-top: 12px; margin-bottom: 8px;">
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Reinvest Rate %</label>
-                                            <input type="number" class="form-input" id="db_reinvest_rate" value="50">
+                                            <input type="number" class="form-input" id="db_reinvest_rate" value="100">
                                         </div>
                                         <div class="form-group" style="margin: 0;">
                                             <label class="form-label">Stop Threshold $</label>
@@ -783,8 +790,15 @@
                                 </div>
                             </div>
 
-                            <button class="btn" id="db-run-btn" onclick="runDirectBonus()">🚀 Run Direct Bonus Simulation</button>
-                            <div class="status-bar" id="db-status" style="display: none;">Ready</div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <button class="btn" id="db-run-btn" onclick="runDirectBonus()">🚀 Run Direct Bonus Simulation</button>
+                                <button class="btn" id="db-cancel-btn" onclick="cancelDirectBonus()" style="background: var(--orange); display: none;">⏹ Cancel</button>
+                                <button class="btn" id="db-reset-btn" onclick="forceReset('direct')" style="background: var(--text-secondary); display: none;">🔄 Reset</button>
+                            </div>
+                            <div class="status-bar" id="db-status" style="display: none;">
+                                <span id="db-status-text">Ready</span>
+                                <span id="db-status-time" style="margin-left: 8px; opacity: 0.8;"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1085,14 +1099,84 @@
             return config;
         }
 
+        // Format elapsed time as MM:SS
+        function formatTime(seconds) {
+            if (!seconds && seconds !== 0) return '';
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Cancel PowerUp simulation
+        async function cancelPowerUp() {
+            try {
+                await fetch('/api/cancel-simulation', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({type: 'powerup'})
+                });
+            } catch (e) {
+                console.error('Cancel error:', e);
+            }
+        }
+
+        // Cancel Direct Bonus simulation
+        async function cancelDirectBonus() {
+            try {
+                await fetch('/api/cancel-simulation', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({type: 'direct'})
+                });
+            } catch (e) {
+                console.error('Cancel error:', e);
+            }
+        }
+
+        // Force reset stuck state
+        async function forceReset(type) {
+            try {
+                await fetch('/api/force-reset', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({})
+                });
+                // Reset UI
+                if (type === 'powerup') {
+                    document.getElementById('pu-run-btn').disabled = false;
+                    document.getElementById('pu-run-btn').textContent = '🚀 Run Simulation';
+                    document.getElementById('pu-status').style.display = 'none';
+                    document.getElementById('pu-cancel-btn').style.display = 'none';
+                    document.getElementById('pu-reset-btn').style.display = 'none';
+                } else {
+                    document.getElementById('db-run-btn').disabled = false;
+                    document.getElementById('db-run-btn').textContent = '🚀 Run Direct Bonus Simulation';
+                    document.getElementById('db-status').style.display = 'none';
+                    document.getElementById('db-cancel-btn').style.display = 'none';
+                    document.getElementById('db-reset-btn').style.display = 'none';
+                }
+                alert('State reset successfully. You can try again.');
+            } catch (e) {
+                console.error('Reset error:', e);
+            }
+        }
+
         async function runPowerUp() {
             const btn = document.getElementById('pu-run-btn');
+            const cancelBtn = document.getElementById('pu-cancel-btn');
+            const resetBtn = document.getElementById('pu-reset-btn');
             const status = document.getElementById('pu-status');
+            const statusText = document.getElementById('pu-status-text');
+            const statusTime = document.getElementById('pu-status-time');
             
             btn.disabled = true;
             btn.textContent = 'Running...';
+            cancelBtn.style.display = 'inline-block';
+            resetBtn.style.display = 'none';
             status.style.display = 'block';
-            status.textContent = 'Starting...';
+            status.style.color = 'var(--text-secondary)';
+            statusText.textContent = 'Starting...';
+            statusTime.textContent = '';
 
             try {
                 const config = buildPowerUpConfig();
@@ -1106,16 +1190,26 @@
 
                 const poll = async () => {
                     const s = await (await fetch('/api/status')).json();
-                    status.textContent = s.status;
+                    statusText.textContent = s.status;
+                    if (s.elapsed_seconds !== undefined) {
+                        statusTime.textContent = `(${formatTime(s.elapsed_seconds)})`;
+                    }
                     
                     if (s.running) {
                         setTimeout(poll, 500);
                     } else if (s.error) {
                         throw new Error(s.error);
+                    } else if (s.status === 'Cancelled') {
+                        statusText.textContent = 'Cancelled';
+                        btn.disabled = false;
+                        btn.textContent = '🚀 Run Simulation';
+                        cancelBtn.style.display = 'none';
+                        setTimeout(() => { status.style.display = 'none'; }, 2000);
                     } else if (s.results) {
                         displayPowerUpResults(s.results);
                         btn.disabled = false;
                         btn.textContent = '🚀 Run Simulation';
+                        cancelBtn.style.display = 'none';
                         status.style.display = 'none';
                         document.getElementById('pu-placeholder').style.display = 'none';
                         document.getElementById('pu-results').classList.add('visible');
@@ -1124,10 +1218,12 @@
                 };
                 setTimeout(poll, 500);
             } catch (e) {
-                status.textContent = 'Error: ' + e.message;
+                statusText.textContent = 'Error: ' + e.message;
                 status.style.color = 'var(--red)';
                 btn.disabled = false;
                 btn.textContent = '🚀 Run Simulation';
+                cancelBtn.style.display = 'none';
+                resetBtn.style.display = 'inline-block';
             }
         }
 
@@ -1280,13 +1376,20 @@
 
         async function runDirectBonus() {
             const btn = document.getElementById('db-run-btn');
+            const cancelBtn = document.getElementById('db-cancel-btn');
+            const resetBtn = document.getElementById('db-reset-btn');
             const status = document.getElementById('db-status');
+            const statusText = document.getElementById('db-status-text');
+            const statusTime = document.getElementById('db-status-time');
             
             btn.disabled = true;
             btn.textContent = 'Running...';
+            cancelBtn.style.display = 'inline-block';
+            resetBtn.style.display = 'none';
             status.style.display = 'block';
-            status.textContent = 'Starting...';
             status.style.color = 'var(--text-secondary)';
+            statusText.textContent = 'Starting...';
+            statusTime.textContent = '';
 
             try {
                 const config = buildDirectBonusConfig();
@@ -1300,16 +1403,26 @@
 
                 const poll = async () => {
                     const s = await (await fetch('/api/direct-bonus-status')).json();
-                    status.textContent = s.status;
+                    statusText.textContent = s.status;
+                    if (s.elapsed_seconds !== undefined) {
+                        statusTime.textContent = `(${formatTime(s.elapsed_seconds)})`;
+                    }
                     
                     if (s.running) {
                         setTimeout(poll, 500);
                     } else if (s.error) {
                         throw new Error(s.error);
+                    } else if (s.status === 'Cancelled') {
+                        statusText.textContent = 'Cancelled';
+                        btn.disabled = false;
+                        btn.textContent = '🚀 Run Direct Bonus Simulation';
+                        cancelBtn.style.display = 'none';
+                        setTimeout(() => { status.style.display = 'none'; }, 2000);
                     } else if (s.results) {
                         displayDirectBonusResults(s.results);
                         btn.disabled = false;
                         btn.textContent = '🚀 Run Direct Bonus Simulation';
+                        cancelBtn.style.display = 'none';
                         status.style.display = 'none';
                         document.getElementById('db-placeholder').style.display = 'none';
                         document.getElementById('db-results').classList.add('visible');
@@ -1318,10 +1431,12 @@
                 };
                 setTimeout(poll, 500);
             } catch (e) {
-                status.textContent = 'Error: ' + e.message;
+                statusText.textContent = 'Error: ' + e.message;
                 status.style.color = 'var(--red)';
                 btn.disabled = false;
                 btn.textContent = '🚀 Run Direct Bonus Simulation';
+                cancelBtn.style.display = 'none';
+                resetBtn.style.display = 'inline-block';
             }
         }
 

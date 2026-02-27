@@ -1092,8 +1092,11 @@ class DirectBonusSimulation:
 def create_direct_bonus_config():
     """Create default configuration for Direct Bonus simulation"""
     return {
-        # Hierarchy (will use existing)
-        'target_users': 100000,
+        # Hierarchy (will use existing or generate)
+        'hierarchy_total_users': 10000,
+        'hierarchy_max_depth': 7,
+        'use_hierarchy_cache': True,
+        'target_users': 10000,
         'growth_rate': 0.8,
         'growth_midpoint': 4.5,
         
@@ -1106,7 +1109,7 @@ def create_direct_bonus_config():
         'nlk_promo_days': 30,
         'nlk_promo_rate': 0.15,
         'nlk_standard_rate': 0.10,
-        'nlk_avg_units': 40,
+        'nlk_avg_units': 8,
         'nlk_unit_price': 25,
         
         # USDN Direct Bonus
@@ -1114,21 +1117,21 @@ def create_direct_bonus_config():
         'usdn_l2_rate': 0.015,
         'usdn_l3_rate': 0.015,
         'usdn_eligibility_threshold': 2500,
-        'usdn_avg_amount': 2000,
+        'usdn_avg_amount': 500,
         
         # Distribution split
         'usdn_w_pct': 0.80,
         'usdn_pct': 0.20,
         
-        # Reinvestment
+        # Reinvestment (Cascade)
         'enable_reinvestment': True,
-        'reinvestment_rate': 0.50,
+        'reinvestment_rate': 1.00,  # 100% reinvestment
         'reinvestment_program': 'random',  # 'nlk', 'usdn', 'random'
         'cascade_stop_threshold': 1.0,
         
-        # Promotions
-        'nlk_promo_months': [3, 6, 9],
-        'usdn_promo_months': [2, 5, 8, 11],
+        # Promotions - early months for growth push
+        'nlk_promo_months': [1, 2],
+        'usdn_promo_months': [2, 3, 4],
         'promo_participation_boost': 0.50,
         'promo_amount_boost': 0.30,
         
